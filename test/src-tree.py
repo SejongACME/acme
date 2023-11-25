@@ -1,10 +1,16 @@
 
 
-""" make source tree ->  http://~/cse-in/Gwangjin-Gu/pm """
+""" make source tree ->  http://~/cse-in/Gwangjin-Gu/pm 
+    every 3 seconds -> cin is created
+"""
 
 import requests
 import random
 import string
+import time
+
+def rand_number():
+    return random.randrange(1, 101)
 
 def request_identifier():
     n = 10
@@ -31,9 +37,11 @@ def make_container():
     }
     return header, body, url
     
-def make_contentinstance():
+def make_contentinstance(i):
     url = "http://127.0.0.1:65535/cse-in/Gwangjin-Gu"
     rqi = request_identifier()
+    rn = f"rn{i}"
+    con = f"{rand_number()}"
     header = {
         "Content-Type" : "application/json; ty=4",
         "X-M2M-Origin" : "CAdmin",
@@ -43,16 +51,19 @@ def make_contentinstance():
     body = {
         "m2m:cin": {
             "cnf": "text/plain:0",
-            "con": "10",
-            "rn": "pm"
+            "con": con,
+            "rn": rn
         }
     }
     return header, body, url
 
+
 header_cnt, body_cnt, url_cnt = make_container()
-header_cin, body_cin, url_cin = make_contentinstance()
-
 http_post_request_cnt = requests.post(url_cnt, headers=header_cnt, json=body_cnt)
-http_post_request_cin = requests.post(url_cin, headers=header_cin, json=body_cin)
 
+
+for i in range(100):
+    time.sleep(3)
+    header_cin, body_cin, url_cin = make_contentinstance(i)
+    http_post_request_cin = requests.post(url_cin, headers=header_cin, json=body_cin)
     
