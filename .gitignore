@@ -146,3 +146,5 @@ ACME oneM2M CSE.docset
 ExampleScripts
 tmp
 docs/apidocs
+.ipynb_checkpoints/
+src/.ipynb_checkpoi
